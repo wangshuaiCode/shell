@@ -1,24 +1,13 @@
+#include "shell.h"
 #include<readline/readline.h>
 #include<readline/history.h>
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h> 
-#include <errno.h>
-#include <pwd.h>
-#include <signal.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h> 
-#define ARG_MAX 1024
-char *buf;
 
-int read_command(char **command, char **parameters) 
+
+int read_command(char **command, char **parameters, char *prompt) 
 { 
 	char *tempbuf = buf;
-	buf = readline(NULL);
+	buf = readline(prompt);
      /*   
         if(feof(stdin) == 0) {
 		printf("\n");
@@ -77,20 +66,21 @@ int read_command(char **command, char **parameters)
 			start = end;
 		}
         }
-	
+        
 	parameters[count -1] = NULL;
+	/*
 	printf("input analysis:\n");
 	    printf("pathname:%s\ncommand:%s\nparameters:\n",*command,parameters[0]);
 	        int i;
 		    for(i=0;i<count-1;i++)
-		            printf("%s\n",parameters[i]);
+       */ 	            printf("%s\n",parameters[i]);
 	free(buf);
 	buf = tempbuf;
 
 
 	return 0;
 }
-
+/*
 int main()
 {
 	char *command = NULL; char  **parameters;
@@ -101,4 +91,5 @@ int main()
 
 	return 0;
 }
+ */
 
