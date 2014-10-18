@@ -20,17 +20,17 @@ void prompt(char *prompt)
 	char path_name[path_len];
 	char host_name[name_len];
 	int length;
-	passwd = getpwuid(getuid());
+	pwd = getpwuid(getuid());
 
 	getcwd(path_name, path_len);
 	gethostname(host_name, name_len);
-	sprintf(prompt, "[shell]%s@%s:", passwd->pw_name, host_name);
+	sprintf(prompt, "[shell]%s@%s:", pwd->pw_name, host_name);
 	length = strlen(prompt);
-	if (strlen(passwd->pw_dir) > strlen(path_name) ||
-	    strncmp(passwd->pw_dir, path_name, strlen(passwd->pw_dir))!= 0)
+	if (strlen(pwd->pw_dir) > strlen(path_name) ||
+	    strncmp(pwd->pw_dir, path_name, strlen(pwd->pw_dir))!= 0)
 	    sprintf(prompt + length, "%s", path_name);
 	else
-	    printf(prompt + length, "~%s", path_name + strlen(passwd->pw_dir));
+	    printf(prompt + length, "~%s", path_name + strlen(pwd->pw_dir));
 
 
 	length = strlen(prompt);

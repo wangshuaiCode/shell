@@ -10,14 +10,14 @@
 #include<sys/stat.h>
 
 
-#define ARG_MAX		    256
-#define MAXARG		    1024 
-
-#define BACKGROUND	    1
-#define PIPED		    2
-#define OUT_REDIRECT	    4
-#define OUT_REDIRECT	    8
-#define IN_REDIRECT	    16
+#define ARG_MAX			    256
+#define MAXARG			    1024 
+				
+#define BACKGROUND		    1
+#define PIPED			    2
+#define OUT_REDIRECT		    4
+#define OUT_REDIRECT_APPEND	    8
+#define IN_REDIRECT		    16
 
 char *buf;
 struct passwd *pwd;
@@ -28,9 +28,9 @@ void prompt(char *);
 
 
 struct parse_info {
-	char **parameters;
-	char *cmd;
+	char **parameters2;
+	char *cmd2;
 	char *out_file;
 	char *in_file;
-	int flag;
+	int flags;
 };
