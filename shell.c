@@ -13,7 +13,7 @@ void sig_handler()
 	{
 		childpid = waitpid(child_pid[i], NULL, WNOHANG);
 		if (childpid > 0) {
-			printf("process : %u exited", childpid);
+			printf("process : %u exited\n", childpid);
 			child_pid[i]  = 0;
 		}
 		else if (childpid < 0) {
@@ -48,33 +48,23 @@ void loop(void)
 	while(TRUE) {
 		prompt(promptbuf);
 		int paranum = read_command(&command, parameters, promptbuf);
-		//printf("num: %d", paranum);
 
 		if (paranum < 0) {
 			printf("read_command error");
 			continue;
 		}
 		paranum--;
-	      //  printf("paranum: %d", paranum);
 		parse(parameters, paranum, &info);
 
-		//printf("parase success\n");
-               // printf("%s", info.in_file);
-	       //printf("command:%s", command);
-		//if (builtin_command(command, parameters))
-		       // continue;
-		    //printf("built success");
+		if (builtin_command(command, parameters))
+		        continue;
 		if (info.flags & PIPED) {
 			if (pipe(pipe_fd) < 0) {
 				printf("pipe error");
 				exit(0);
-			} else {
-				printf("pipe success");
-			}
-		    
+			} 
 		}
 		if ((childpid1 = fork()) != 0) {
-			printf("%u", childpid1);
 			if (info.flags & PIPED) {
 				if((childpid2 = fork()) == 0) {
 					close(pipe_fd[1]);
@@ -144,7 +134,7 @@ void loop(void)
 				close(in_fd);
 			}
 			execvp(command, parameters);
-		       
+			exit(0);
 		}
 	}
 	free(parameters);

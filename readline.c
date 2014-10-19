@@ -8,12 +8,8 @@ int read_command(char **command, char **parameters, char *prompt)
 { 
 	extern char *buf;
 	buf = readline(prompt);
-        /*
-        if(feof(stdin) == 0) {
-		printf("\n");
-		exit(0);
-	}
-	*/
+
+
 	if (buf[0] == '\0')
 		return -1;
 	
@@ -40,7 +36,7 @@ int read_command(char **command, char **parameters, char *prompt)
 		if(count == 0) {
 			*command = start;
 			char *p = end;
-			while(p != end && *p != '/')
+			while(p != start && *p != '/')
 				p--;
 			if (*p == '/')
 				p++;
@@ -48,7 +44,6 @@ int read_command(char **command, char **parameters, char *prompt)
 			
 			
 			count += 2;
-			//printf("parameters[0]:%s", parameters[0]);
                          
 
 		} 
@@ -70,27 +65,9 @@ int read_command(char **command, char **parameters, char *prompt)
         }
         
 	parameters[count -1] = NULL;
-	
-	printf("input analysis:\n");
-	    printf("command:%s\nparameters:%s\n",*command,parameters[0]);
-	        int i;
-		    for(i=0;i<count-1;i++)
-       
-        	            printf("%s\n",parameters[i]);
-	
+
 
 	return count;
 }
-/*
-int main()
-{
-	char *command = NULL; char  **parameters;
-	parameters = (char **)malloc(sizeof(char *)*(ARG_MAX+2));
-	char *buf = malloc(sizeof(char) * ARG_MAX);      
-        int count = read_command(&command, parameters);
-	printf("%d", count);
 
-	return 0;
-}
- */
 

@@ -1,16 +1,4 @@
 #include "shell.h"
-/*
-#include<unistd.h>
-#include<stdlib.h>
-#include<stdio.h>
-#include<string.h>
-#include<fcntl.h>
-#include<errno.h>
-#include<pwd.h>
-#include<sys/wait.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-*/
 
 const int name_len = 256;
 const int path_len = 1024;
@@ -42,14 +30,6 @@ void prompt(char *prompt)
 	
 	return;
 }
-/*
-       int main() 
-      {
-	    char buf[1024];
-           prompt(buf);
-	   printf("%s", buf);
- 	    return 0;
-      }
- */
+
  
  
