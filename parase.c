@@ -3,10 +3,10 @@
 void parse_info_init(struct parse_info *info)
 {
 	info->flags = 0;
-	info->out_file = NULL:
-	info->in_file = NULL:
-	info->cmd2 = NULL:
-	info->parameters = NULL:
+	info->out_file = NULL;
+	info->in_file = NULL;
+	info->cmd2 = NULL;
+	info->parameters2 = NULL;
 	
 	return;
 }
@@ -15,16 +15,16 @@ void parse_info_init(struct parse_info *info)
 int parse(char **parameters, int paranum, struct parse_info *info)
 {
 	int i;
-	parase_info_init(info);
+	parse_info_init(info);
 	if (strcmp(parameters[paranum - 1], "&") == 0) {
 		info->flags |= BACKGROUND;
-		parameters[paranum - 1] = NULL:
+		parameters[paranum - 1] = NULL;
 		paranum--;
 	}
 
 	for(i = 0; i < paranum;)
 	{
-		if ((strcmp(parameters[i], "<") == 0) || (strcmp(parameteres[i], "<<") == 0)) {
+		if ((strcmp(parameters[i], "<") == 0) || (strcmp(parameters[i], "<<") == 0)) {
 			info->flags |= IN_REDIRECT;
 			info->in_file = parameters[i + 1];
 			parameters[i] = NULL;
@@ -32,7 +32,7 @@ int parse(char **parameters, int paranum, struct parse_info *info)
 		}
 		else if (strcmp(parameters[i], ">") == 0) {
 			info->flags |= OUT_REDIRECT;
-			info->out_file = parameters[i + 1]
+			info->out_file = parameters[i + 1];
 			parameters[i] = NULL;
 			i += 2;
 		}
@@ -51,7 +51,7 @@ int parse(char **parameters, int paranum, struct parse_info *info)
 				p != &(info->parameters2[0][0]) && *p != '/'; p --);
 			if(*p == '/')
 			    p++;
-			parameters2[0] = p++;
+			info->parameters2[0] = p++;
 			break;
 		}
 		else 

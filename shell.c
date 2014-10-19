@@ -2,6 +2,7 @@
 
 #define TRUE 1 
 #define MAX_CHILD 10
+#define MAX_PROMPT 256
 pid_t child_pid[MAX_CHILD];
 
 void sig_handler()
@@ -15,7 +16,7 @@ void sig_handler()
 			printf("process : %u exited", childpid);
 			child_pid[i]  = 0;
 		}
-		else if (child < 0) {
+		else if (childpid < 0) {
 			if (errno != ECHILD)
 			    printf("waitpid error");
 		}
@@ -27,39 +28,53 @@ void sig_handler()
 
 void loop(void)
 {
-	char *command = NULL;
-	char **parameters = malloc(sizeof(char *) * ARG_MAX);
-	char *buf = malloc(sizeof(char) * MAXARG);
 	struct parse_info info;
 	int pipe_fd[2], out_fd, in_fd;
+	char promptbuf[MAX_PROMPT];
 	pid_t childpid1, childpid2;
-	int status;
+	int status; 
+	char *command = NULL;
+	char **parameters = malloc(sizeof(char *) * ARG_MAX);
+	extern char *buf;
+        buf = malloc(sizeof(char) * MAXARG);
+       
 	if (buf == NULL || parameters == NULL) {
-		printf("malloc error\n");
+		printf("buf and parameters malloc error\n");
 		return;
 	}
 
 	if (signal(SIGCHLD, sig_handler) == SIG_ERR)
 		printf("signal error");	
 	while(TRUE) {
-		prompt(prompt);
-		int paranum = read_command(&command, parameters, prompt);
+		prompt(promptbuf);
+		int paranum = read_command(&command, parameters, promptbuf);
+		//printf("num: %d", paranum);
+
 		if (paranum < 0) {
 			printf("read_command error");
 			continue;
 		}
 		paranum--;
-		parase(parameters, paranum, &cmd_info);
+	      //  printf("paranum: %d", paranum);
+		parse(parameters, paranum, &info);
 
-		if (builtin_command(command, parameters))
-			continue;
+		//printf("parase success\n");
+               // printf("%s", info.in_file);
+	       //printf("command:%s", command);
+		//if (builtin_command(command, parameters))
+		       // continue;
+		    //printf("built success");
 		if (info.flags & PIPED) {
 			if (pipe(pipe_fd) < 0) {
 				printf("pipe error");
 				exit(0);
+			} else {
+				printf("pipe success");
 			}
+		    
 		}
 		if ((childpid1 = fork()) != 0) {
+			printf("%u", childpid1);
 			if (info.flags & PIPED) {
 				if((childpid2 = fork()) == 0) {
 					close(pipe_fd[1]);
@@ -76,7 +91,7 @@ void loop(void)
 			if (info.flags & BACKGROUND) {
 				printf("chile pid : %u\n", childpid1);
 				int i ;
-				for(i = 0; i < MAX_CHILD, ++i) {
+				for(i = 0; i < MAX_CHILD; ++i) {
 					if(child_pid[i] == 0) {
 						child_pid[i] = childpid1;		
 						break;
@@ -99,9 +114,9 @@ void loop(void)
 				} else {
 					close(pipe_fd[0]);
 					close(pipe_fd[1]);
-					if (info.flags & OUT_DIRECT)
+					if (info.flags & OUT_REDIRECT)
 						out_fd = open(info.out_file, O_WRONLY|O_TRUNC|O_CREAT, 0666);
-					if (info.flags & OUT_DIRECT_APPEND) 
+					if (info.flags & OUT_REDIRECT_APPEND) 
 						out_fd = open(info.out_file, O_WRONLY|O_APPEND|O_TRUNC, 0666);
 					close(fileno(stdout));
 					dup2(out_fd, fileno(stdout));
@@ -115,7 +130,7 @@ void loop(void)
 					dup2(out_fd, fileno(stdout));
 					close(out_fd);
 				}
-				if(info.flags & OUT_REDIRECT_APPEN) {
+				if(info.flags & OUT_REDIRECT_APPEND) {
 					out_fd = open(info.out_file, O_WRONLY|O_APPEND|O_TRUNC, 0666);
 					close(fileno(stdout));
 					dup2(out_fd, fileno(stdout));
@@ -137,4 +152,13 @@ void loop(void)
 
 
 
+}
+
+int main()
+{
+	int i;
+	for(i = 0; i < MAX_CHILD; ++i)
+		child_pid[i] = 0;
+	loop();
+	return 0;
 }

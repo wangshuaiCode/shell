@@ -10,7 +10,7 @@ int builtin_command(char *command, char **parameters)
 		exit(0);
 	else if (strcmp(command, "cd") == 0) {
 		char *cd_path = NULL;
-		if (parameteres[1][0] == "~") {
+		if (parameters[1][0] == "~") {
 			cd_path = malloc(sizeof(char) * (strlen(pwd->pw_dir) + strlen(parameters[1])));
 			if (cd_path == NULL) {
 				printf(" cd_path malloc error");

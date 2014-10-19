@@ -4,7 +4,7 @@
 #include<string.h>
 #include<fcntl.h>
 #include<pwd.h>
-#include<errno.>
+#include<errno.h>
 #include<sys/wait.h>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -21,11 +21,15 @@
 
 char *buf;
 struct passwd *pwd;
-struct parse_info;
-int read_command(char **, char **);
+int read_command(char **command, char **parameters, char *prompt);
+int builtin_command(char *command, char **parameters);
 void loop(void);
+void sig_handler();
 void prompt(char *);
-
+void par_info_init(struct parse_info *info);
+int parsing(char **parameters, int paranum, struct parse_info *info);
+#ifndef STRUCT_PARSE_INFO
+#define STRUCT_PARSE_INFO 
 
 struct parse_info {
 	char **parameters2;
@@ -34,3 +38,4 @@ struct parse_info {
 	char *in_file;
 	int flags;
 };
+#endif

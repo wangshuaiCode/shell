@@ -39,7 +39,7 @@ void prompt(char *prompt)
 	    sprintf(prompt + length, "#");
 	else
 	    sprintf(prompt + length,"$");
-	
+	printf("%s",prompt);
 	return;
 }
 /*

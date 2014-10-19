@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ARG_MAX	shell.h	13;"	d
+BACKGROUND	shell.h	16;"	d
+IN_REDIRECT	shell.h	20;"	d
+MAXARG	shell.h	14;"	d
+MAX_CHILD	shell.c	4;"	d	file:
+OUT_REDIRECT	shell.h	18;"	d
+OUT_REDIRECT_APPEND	shell.h	19;"	d
+PIPED	shell.h	17;"	d
+TRUE	shell.c	3;"	d	file:
+buf	shell.h	/^char *buf;$/;"	v
+builtin_command	builtin.c	/^int builtin_command(char *command, char **parameters)$/;"	f
+child_pid	shell.c	/^pid_t child_pid[MAX_CHILD];$/;"	v
+cmd2	shell.h	/^	char *cmd2;$/;"	m	struct:parse_info
+flags	shell.h	/^	int flags;$/;"	m	struct:parse_info
+in_file	shell.h	/^	char *in_file;$/;"	m	struct:parse_info
+loop	shell.c	/^void loop(void)$/;"	f
+name_len	prompt.c	/^const int name_len = 256;$/;"	v
+out_file	shell.h	/^	char *out_file;$/;"	m	struct:parse_info
+parameters2	shell.h	/^	char **parameters2;$/;"	m	struct:parse_info
+parse	parase.c	/^int parse(char **parameters, int paranum, struct parse_info *info)$/;"	f
+parse_info	shell.h	/^struct parse_info {$/;"	s
+parse_info_init	parase.c	/^void parse_info_init(struct parse_info *info)$/;"	f
+path_len	prompt.c	/^const int path_len = 1024;$/;"	v
+prompt	prompt.c	/^void prompt(char *prompt)$/;"	f
+pwd	shell.h	/^struct passwd *pwd;$/;"	v	typeref:struct:passwd
+read_command	readline.c	/^int read_command(char **command, char **parameters, char *prompt) $/;"	f
+sig_handler	shell.c	/^void sig_handler()$/;"	f

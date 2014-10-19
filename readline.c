@@ -6,16 +6,16 @@
 
 int read_command(char **command, char **parameters, char *prompt) 
 { 
-	char *tempbuf = buf;
+	extern char *buf;
 	buf = readline(prompt);
-     /*   
+        /*
         if(feof(stdin) == 0) {
 		printf("\n");
 		exit(0);
 	}
 	*/
 	if (buf[0] == '\0')
-		return -2;
+		return -1;
 	
 	char *start, *end;
 	int count = 0;
@@ -30,7 +30,7 @@ int read_command(char **command, char **parameters, char *prompt)
 		}
 		if(*end == '\0' || *end == '\n') {
 			if(count == 0)
-				return -3;
+				return -1;
 			break;
 		}
 
@@ -45,9 +45,11 @@ int read_command(char **command, char **parameters, char *prompt)
 			if (*p == '/')
 				p++;
 			parameters[0] = p;
-			printf("%s",*command);
+			
+			
 			count += 2;
-
+			//printf("parameters[0]:%s", parameters[0]);
+                         
 
 		} 
 
@@ -68,17 +70,16 @@ int read_command(char **command, char **parameters, char *prompt)
         }
         
 	parameters[count -1] = NULL;
-	/*
+	
 	printf("input analysis:\n");
-	    printf("pathname:%s\ncommand:%s\nparameters:\n",*command,parameters[0]);
+	    printf("command:%s\nparameters:%s\n",*command,parameters[0]);
 	        int i;
 		    for(i=0;i<count-1;i++)
-       */ 	            printf("%s\n",parameters[i]);
-	free(buf);
-	buf = tempbuf;
+       
+        	            printf("%s\n",parameters[i]);
+	
 
-
-	return 0;
+	return count;
 }
 /*
 int main()
